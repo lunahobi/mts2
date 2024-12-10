@@ -1,6 +1,7 @@
 package task2;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Main {
@@ -8,28 +9,17 @@ public class Main {
         // Создаем сервисы
         CreateAnimalService createService = new CreateAnimalServiceImpl();
         SearchService searchService = new SearchServiceImpl();
+        // Форматтер для даты
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         // Генерируем список животных
-        List<Animal> animals = createService.createAnimals(10);
+        List<Animal> animals = createService.createAnimalsDoWhile(10);
 
-        Animal a1 = new Pet("Cat", "Bella", 50.0, "Friendly", LocalDate.of(2020, 1, 1));
-        Animal a2 = new Pet("Dog", "Max", 70.0, "Playful", LocalDate.of(2019, 5, 5));
-        Animal a3 = new Pet("Cat", "Bella", 50.0, "Friendly", LocalDate.of(2020, 1, 1)); // дубликат a1
+        Animal a1 = new Cat("Abyssinian", "Bella", 50.0, "Friendly", LocalDate.of(2020, 1, 1));
+        Animal a2 = new Cat("Abyssinian", "Bella", 50.0, "Friendly", LocalDate.of(2020, 1, 1)); // дубликат a1
 
         animals.add(a1);
         animals.add(a2);
-        animals.add(a3);
-
-        // Выводим информацию о всех животных
-        System.out.println("Список всех животных:");
-        animals.forEach(animal -> System.out.printf(
-                "Порода: %s, Имя: %s, Цена: %.2f, Характер: %s, Дата рождения: %s%n",
-                animal.getBreed(),
-                animal.getName(),
-                animal.getCost(),
-                animal.getCharacter(),
-                animal.getBirthDate()
-        ));
 
         // Поиск животных, родившихся в високосный год
         List<String> leapYearNames = searchService.findLeapYearNames(animals);
@@ -45,7 +35,7 @@ public class Main {
                 animal.getName(),
                 animal.getCost(),
                 animal.getCharacter(),
-                animal.getBirthDate()
+                animal.getBirthDate().format(formatter)
         ));
 
         // Поиск дубликатов
@@ -57,7 +47,7 @@ public class Main {
                 animal.getName(),
                 animal.getCost(),
                 animal.getCharacter(),
-                animal.getBirthDate()
+                animal.getBirthDate().format(formatter)
         ));
 
     }
